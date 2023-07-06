@@ -2,13 +2,13 @@
 #include "raylib.h"
 
 // We need this to save direction info
-    enum class Direction
-    {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT,
-    };
+enum class Direction
+{
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+};
 
 // Player structure
 struct Player
