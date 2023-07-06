@@ -1,10 +1,7 @@
 // Including raylib
 #include "raylib.h"
 
-// Player structure
-struct Player
-{
-    // We need this to save direction info
+// We need this to save direction info
     enum class Direction
     {
         UP,
@@ -13,6 +10,9 @@ struct Player
         RIGHT,
     };
 
+// Player structure
+struct Player
+{
     // Movement speed
     float speed = 7;
 
