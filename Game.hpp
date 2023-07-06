@@ -2,6 +2,7 @@
 
 // Import structures with raylib
 #include "Player.hpp"
+#include "Human.hpp"
 
 // Game states
 enum class GameState

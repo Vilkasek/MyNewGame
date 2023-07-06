@@ -1,24 +1,22 @@
-// Including raylib
+// Including raylib and directions
 #include "raylib.h"
+#include "Directions.hpp"
 
 // Including string for testing
 #include <iostream>
 
-// We need this to save direction info
-enum class Direction
-{
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT,
-};
-
 // Player structure
 struct Player
 {
-    // Movement speed and stamina for actions
+    // Movement speed, stamina for actions, 
+    // health
     float speed = 7.f;
     float stamina = 1.f;
+    float health = 1.f;
+    
+    // Level and experience
+    int level = 1;
+    int exp = 0;
 
     // Textures array
     Texture2D tex[4] = { 0 };
@@ -26,6 +24,9 @@ struct Player
     // Position and velocity
     Vector2 position = { 0 };
     Vector2 velocity = { 0 };
+
+    // Collision box
+    Rectangle collBox = { 0 };
 
     // Init direction
     Direction dir = Direction::LEFT;
@@ -45,6 +46,9 @@ struct Player
         // Initial velocity
         velocity = { 0.f, 0.f };
 
+        // Init collbox
+        collBox = {position.x + 40, position.y, 48, 128};
+
         // Initial direction
         Direction dir = Direction::LEFT;
     }
@@ -60,12 +64,13 @@ struct Player
         else speed = 7.f;
 
         // Vertical movement and changing direction
-        if(IsKeyDown(KEY_W)) 
+        // and clamp player
+        if(IsKeyDown(KEY_W) && collBox.y > 0) 
         {
             velocity.y = -1;
             dir = Direction::UP;
         }
-        else if(IsKeyDown(KEY_S)) 
+        else if(IsKeyDown(KEY_S) && collBox.y + collBox.height < 720) 
         {
             velocity.y = 1;
             dir = Direction::DOWN;
@@ -73,12 +78,13 @@ struct Player
         else velocity.y = 0;
 
         // Horizontal movement and changing direction
-        if(IsKeyDown(KEY_A)) 
+        // and clamp player
+        if(IsKeyDown(KEY_A) && collBox.x > 0) 
         {
             velocity.x = -1;
             dir = Direction::LEFT;
         }
-        else if(IsKeyDown(KEY_D)) 
+        else if(IsKeyDown(KEY_D) && collBox.x + collBox.width < 1280)
         {
             velocity.x = 1;
             dir = Direction::RIGHT;
@@ -88,6 +94,10 @@ struct Player
         // Changing position
         position.x += velocity.x * speed;
         position.y += velocity.y * speed;
+
+        // Udpating collbox position
+        collBox.x = position.x + 40;
+        collBox.y = position.y;
     }
 
     // Render Player
@@ -109,6 +119,9 @@ struct Player
                 DrawTextureEx(tex[3], position, 0.f, 2.f, WHITE);
                 break;
         }
+
+        // For testing render collbox
+        DrawRectangle(collBox.x, collBox.y, collBox.width, collBox.height, WHITE);
     }
 
     // Deinitialization
