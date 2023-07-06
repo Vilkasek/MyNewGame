@@ -1,7 +1,7 @@
 #pragma once
 
-// Import raylib
-#include "raylib.h"
+// Import structures with raylib
+#include "Player.hpp"
 
 // Game states
 enum class GameState
@@ -51,4 +51,7 @@ private:
 
     // Initialization of states
     GameState gameState = GameState::GAME;
+
+    // Create player
+    Player player;
 };

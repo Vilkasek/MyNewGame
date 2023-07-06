@@ -1,3 +1,4 @@
+// Include Game header
 #include "Game.hpp"
 
 Game::Game()
@@ -40,10 +41,14 @@ void Game::initWin()
 // Main init function
 void Game::init()
 {
+    // Init game components
     initWin();
 
     // Initial game state
     GameState gameState = GameState::GAME;
+
+    // Init game objects
+    player.init();
 }
 
 /*
@@ -53,6 +58,7 @@ void Game::init()
 void Game::updateGame()
 {
 // TODO: player, enemy, world, camera, music, etc.
+    player.update();
 }
 
 // Main udpate
@@ -71,7 +77,11 @@ void Game::update()
 */
 void Game::renderGame()
 {
-    ClearBackground(WHITE);
+    // Clear old frame
+    ClearBackground(BLACK);
+
+    // Render game objects
+    player.render();
 }
 
 // Main render
@@ -91,5 +101,9 @@ void Game::render()
 // Deinitialization
 void Game::deinit()
 {
+    // Deinit objects
+    player.deinit();
+
+    // Close window
     CloseWindow();
 }
