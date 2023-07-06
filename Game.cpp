@@ -93,6 +93,7 @@ void Game::render()
     {
         case GameState::GAME:
             renderGame();
+            break;
     }
 
     EndDrawing();

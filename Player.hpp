@@ -16,8 +16,8 @@ struct Player
     // Movement speed
     float speed = 7;
 
-    // Texture
-    Texture2D tex = { 0 };
+    // Textures array
+    Texture2D tex[4] = { 0 };
 
     // Position and velocity
     Vector2 position = { 0 };
@@ -29,8 +29,11 @@ struct Player
     // Init Player
     void init()
     {
-        // Load texture
-        tex = LoadTexture("./Graphics/Player/Idle/Bot.png");
+        // Load textures to array
+        tex[0] = LoadTexture("./Graphics/Player/Idle/Player-Right.png");
+        tex[1] = LoadTexture("./Graphics/Player/Idle/Player-Left.png");
+        tex[2] = LoadTexture("./Graphics/Player/Idle/Player-Up.png");
+        tex[3] = LoadTexture("./Graphics/Player/Idle/Player-Down.png");
 
         // Starting position
         position = { 500.f, 300.f };
@@ -45,14 +48,30 @@ struct Player
     // Update Player
     void update()
     {
-        // vertical movement
-        if(IsKeyDown(KEY_W)) velocity.y = -1;
-        else if(IsKeyDown(KEY_S)) velocity.y = 1;
+        // Vertical movement and changing direction
+        if(IsKeyDown(KEY_W)) 
+        {
+            velocity.y = -1;
+            dir = Direction::UP;
+        }
+        else if(IsKeyDown(KEY_S)) 
+        {
+            velocity.y = 1;
+            dir = Direction::DOWN;
+        }
         else velocity.y = 0;
 
-        // Horizontal movement
-        if(IsKeyDown(KEY_A)) velocity.x = -1;
-        else if(IsKeyDown(KEY_D)) velocity.x = 1;
+        // Horizontal movement and changing direction
+        if(IsKeyDown(KEY_A)) 
+        {
+            velocity.x = -1;
+            dir = Direction::LEFT;
+        }
+        else if(IsKeyDown(KEY_D)) 
+        {
+            velocity.x = 1;
+            dir = Direction::RIGHT;
+        }
         else velocity.x = 0;
 
         // Changing position
@@ -63,13 +82,27 @@ struct Player
     // Render Player
     void render()
     {
-        // Drawing Player texture
-        DrawTextureEx(tex, position, 0.f, 2.f, WHITE);
+        // Drawing Player texture depended on direction
+        switch(dir)
+        {
+            case Direction::RIGHT:
+                DrawTextureEx(tex[0], position, 0.f, 2.f, WHITE);
+                break;
+            case Direction::LEFT:
+                DrawTextureEx(tex[1], position, 0.f, 2.f, WHITE);
+                break;
+            case Direction::UP:
+                DrawTextureEx(tex[2], position, 0.f, 2.f, WHITE);
+                break;
+            case Direction::DOWN:
+                DrawTextureEx(tex[3], position, 0.f, 2.f, WHITE);
+                break;
+        }
     }
 
     // Deinitialization
     void deinit()
     {
-        UnloadTexture(tex);
+        for(auto i : tex) UnloadTexture(i);
     }
 };
