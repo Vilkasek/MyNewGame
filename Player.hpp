@@ -1,6 +1,9 @@
 // Including raylib
 #include "raylib.h"
 
+// Including string for testing
+#include <iostream>
+
 // We need this to save direction info
 enum class Direction
 {
@@ -13,8 +16,9 @@ enum class Direction
 // Player structure
 struct Player
 {
-    // Movement speed
-    float speed = 7;
+    // Movement speed and stamina for actions
+    float speed = 7.f;
+    float stamina = 1.f;
 
     // Textures array
     Texture2D tex[4] = { 0 };
@@ -48,6 +52,13 @@ struct Player
     // Update Player
     void update()
     {
+        // Sprinting
+        if(IsKeyDown(KEY_LEFT_SHIFT) && stamina > 0) 
+        {
+            speed = 15.f;
+        }
+        else speed = 7.f;
+
         // Vertical movement and changing direction
         if(IsKeyDown(KEY_W)) 
         {
