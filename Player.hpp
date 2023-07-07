@@ -1,5 +1,6 @@
-// Including raylib and directions
+// Including raylib, raylib math and directions
 #include "raylib.h"
+#include "raymath.h"
 #include "Directions.hpp"
 
 // Including string for testing
@@ -158,6 +159,9 @@ struct Player
             animation(0);
         }
         else velocity.x = 0;
+
+        // Normalizing velocity
+        velocity = Vector2Normalize(velocity);
 
         // Changing position
         position.x += velocity.x * speed;
