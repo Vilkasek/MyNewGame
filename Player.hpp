@@ -112,9 +112,13 @@ struct Player
         if(IsKeyDown(KEY_LEFT_SHIFT) && stamina > 0) 
         {
             speed = 15.f;
+            delay = 2;
         }
-        else speed = 7.f;
-
+        else
+        {
+            speed = 7.f;
+            delay = 5;
+        }
         // Vertical movement and changing direction
         // and clamp player
         if(IsKeyDown(KEY_W) && collBox.y > 0) 
