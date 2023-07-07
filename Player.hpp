@@ -5,6 +5,10 @@
 // Including string for testing
 #include <iostream>
 
+// Defining things for animation
+#define MAX_FR_DELAY 20
+#define MIN_FR_DELAY 1
+
 // Player structure
 struct Player
 {
@@ -13,13 +17,19 @@ struct Player
     float speed = 7.f;
     float stamina = 1.f;
     float health = 1.f;
+
+    // Animation frames
+    int animFrames = 0;
     
     // Level and experience
     int level = 1;
     int exp = 0;
 
+    // Image to import animated sprite
+    Image iAnims[4] = { 0 };
+
     // Textures array
-    Texture2D tex[4] = { 0 };
+    Texture2D idleTex[4] = { 0 };
 
     // Position and velocity
     Vector2 position = { 0 };
@@ -35,10 +45,10 @@ struct Player
     void init()
     {
         // Load textures to array
-        tex[0] = LoadTexture("./Graphics/Player/Idle/Player-Right.png");
-        tex[1] = LoadTexture("./Graphics/Player/Idle/Player-Left.png");
-        tex[2] = LoadTexture("./Graphics/Player/Idle/Player-Up.png");
-        tex[3] = LoadTexture("./Graphics/Player/Idle/Player-Down.png");
+        idleTex[0] = LoadTexture("./Graphics/Player/Idle/Player-Right.png");
+        idleTex[1] = LoadTexture("./Graphics/Player/Idle/Player-Left.png");
+        idleTex[2] = LoadTexture("./Graphics/Player/Idle/Player-Up.png");
+        idleTex[3] = LoadTexture("./Graphics/Player/Idle/Player-Down.png");
 
         // Starting position
         position = { 500.f, 300.f };
@@ -107,26 +117,27 @@ struct Player
         switch(dir)
         {
             case Direction::RIGHT:
-                DrawTextureEx(tex[0], position, 0.f, 2.f, WHITE);
+                DrawTextureEx(idleTex[0], position, 0.f, 2.f, WHITE);
                 break;
             case Direction::LEFT:
-                DrawTextureEx(tex[1], position, 0.f, 2.f, WHITE);
+                DrawTextureEx(idleTex[1], position, 0.f, 2.f, WHITE);
                 break;
             case Direction::UP:
-                DrawTextureEx(tex[2], position, 0.f, 2.f, WHITE);
+                DrawTextureEx(idleTex[2], position, 0.f, 2.f, WHITE);
                 break;
             case Direction::DOWN:
-                DrawTextureEx(tex[3], position, 0.f, 2.f, WHITE);
+                DrawTextureEx(idleTex[3], position, 0.f, 2.f, WHITE);
                 break;
         }
 
         // For testing render collbox
-        DrawRectangle(collBox.x, collBox.y, collBox.width, collBox.height, WHITE);
+        // DrawRectangle(collBox.x, collBox.y, collBox.width, collBox.height, WHITE);
     }
 
     // Deinitialization
     void deinit()
     {
-        for(auto i : tex) UnloadTexture(i);
+        // For each loop for unloading things
+        for(auto i : idleTex) UnloadTexture(i);
     }
 };
