@@ -54,9 +54,21 @@ struct Player
     // Init direction
     Direction dir = Direction::LEFT;
 
-    // Init Player
-    void init()
+    // Init camera properties
+    void initCamera(Camera2D &cam, int w, int h)
     {
+        cam.target = (Vector2){ position.x + 64, position.y + 64 };
+        cam.offset = (Vector2){ (float)w / 2 , (float)h / 2 };
+        cam.rotation = 0;
+        cam.zoom = 1;
+    }
+
+    // Init Player
+    void init(int w, int h)
+    {
+        // Camera initializing
+        initCamera(camera, w, h);
+
         // Load images to array
         iAnims[0] = LoadImageAnim("./Graphics/Player/Walk/Player-Anim-Right.gif", &animFrames[0]);
         iAnims[1] = LoadImageAnim("./Graphics/Player/Walk/Player-Anim-Left.gif", &animFrames[1]);
@@ -109,9 +121,18 @@ struct Player
         }
     }
 
+    // Update camera
+    void updateCamera(Camera2D &cam)
+    {
+        camera.target = (Vector2){position.x + 64, position.y + 64};
+    }
+
     // Update Player
     void update()
     {
+        // Update camera
+        updateCamera(camera);
+
         // Sprinting
         if(IsKeyDown(KEY_LEFT_SHIFT) && stamina > 0) 
         {

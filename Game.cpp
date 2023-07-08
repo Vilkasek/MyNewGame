@@ -44,17 +44,11 @@ void Game::init()
     // Init game components
     initWin();
 
-    // Camera initializing
-    camera.target = (Vector2){ player.position.x + 64, player.position.y + 64 };
-    camera.offset = (Vector2){ (float)sWidth / 2 , (float)sHeight / 2 };
-    camera.rotation = 5;
-    camera.zoom = 1;
-
     // Initial game state
     GameState gameState = GameState::GAME;
 
     // Init game objects
-    player.init();
+    player.init(sWidth, sHeight);
     tilemap.init();
 }
 
@@ -66,9 +60,6 @@ void Game::updateGame()
 {
     // TODO: player, enemy, world, camera, music, etc.
     player.update();
-    
-    // Update camera
-    camera.target = player.position;
 }
 
 // Main udpate
@@ -100,12 +91,18 @@ void Game::render()
 {
     BeginDrawing();
 
+    // Begin 2D mode to use camera
+    BeginMode2D(player.camera);
+
     switch(gameState)
     {
         case GameState::GAME:
             renderGame();
             break;
     }
+
+    // End that mode
+    EndMode2D();
 
     EndDrawing();
 }

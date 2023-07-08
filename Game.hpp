@@ -56,7 +56,4 @@ private:
     // Create game objects
     Player player;
     Tilemap tilemap;
-
-    // Camera
-    Camera2D camera;
 };
