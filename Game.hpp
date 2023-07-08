@@ -3,6 +3,7 @@
 // Import structures with raylib
 #include "Player.hpp"
 #include "Human.hpp"
+#include "Tilemap.hpp"
 
 // Game states
 enum class GameState
