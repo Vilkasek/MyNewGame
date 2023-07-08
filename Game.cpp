@@ -49,6 +49,7 @@ void Game::init()
 
     // Init game objects
     player.init();
+    tilemap.init();
 }
 
 /*
@@ -81,6 +82,7 @@ void Game::renderGame()
     ClearBackground(BLACK);
 
     // Render game objects
+    for(int i = 0; i < 2; i++) tilemap.render(i);
     player.render();
 }
 
@@ -104,6 +106,7 @@ void Game::deinit()
 {
     // Deinit objects
     player.deinit();
+    tilemap.deinit();
 
     // Close window
     CloseWindow();

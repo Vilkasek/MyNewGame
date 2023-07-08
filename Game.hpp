@@ -2,7 +2,6 @@
 
 // Import structures with raylib
 #include "Player.hpp"
-#include "Human.hpp"
 #include "Tilemap.hpp"
 
 // Game states
@@ -54,6 +53,7 @@ private:
     // Initialization of states
     GameState gameState = GameState::GAME;
 
-    // Create player
+    // Create game objects
     Player player;
+    Tilemap tilemap;
 };

@@ -10,6 +10,14 @@ struct Tile
     // Initialize
     void init()
     {
-        tex = LoadTexture("./Graphics/Environment/Groung.png");
+        // Load texture
+        tex = LoadTexture("./Graphics/Environment/Ground.png");
+    }
+
+    // Deinit
+    void deinit()
+    {
+        // Unload texture
+        UnloadTexture(tex);
     }
 };
