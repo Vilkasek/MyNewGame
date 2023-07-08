@@ -48,6 +48,9 @@ struct Player
     // Collision box
     Rectangle collBox = { 0 };
 
+    // Camera object
+    Camera2D camera = { 0 };
+
     // Init direction
     Direction dir = Direction::LEFT;
 
@@ -122,7 +125,7 @@ struct Player
         }
         // Vertical movement and changing direction
         // and clamp player
-        if(IsKeyDown(KEY_W) && collBox.y > 0) 
+        if(IsKeyDown(KEY_W))// && collBox.y > 0) 
         {
             velocity.y = -1;
             dir = Direction::UP;
@@ -130,7 +133,7 @@ struct Player
             // Update good animation
             animation(2);
         }
-        else if(IsKeyDown(KEY_S) && collBox.y + collBox.height < 720) 
+        else if(IsKeyDown(KEY_S))// && collBox.y + collBox.height < 720) 
         {
             velocity.y = 1;
             dir = Direction::DOWN;
@@ -142,7 +145,7 @@ struct Player
 
         // Horizontal movement and changing direction
         // and clamp player
-        if(IsKeyDown(KEY_A) && collBox.x > 0) 
+        if(IsKeyDown(KEY_A))// && collBox.x > 0) 
         {
             velocity.x = -1;
             dir = Direction::LEFT;
@@ -150,7 +153,7 @@ struct Player
             // Update good animation
             animation(1);
         }
-        else if(IsKeyDown(KEY_D) && collBox.x + collBox.width < 1280)
+        else if(IsKeyDown(KEY_D))// && collBox.x + collBox.width < 1280)
         {
             velocity.x = 1;
             dir = Direction::RIGHT;

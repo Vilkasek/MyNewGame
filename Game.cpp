@@ -44,6 +44,12 @@ void Game::init()
     // Init game components
     initWin();
 
+    // Camera initializing
+    camera.target = (Vector2){ player.position.x + 64, player.position.y + 64 };
+    camera.offset = (Vector2){ (float)sWidth / 2 , (float)sHeight / 2 };
+    camera.rotation = 5;
+    camera.zoom = 1;
+
     // Initial game state
     GameState gameState = GameState::GAME;
 
@@ -58,8 +64,11 @@ void Game::init()
 */
 void Game::updateGame()
 {
-// TODO: player, enemy, world, camera, music, etc.
+    // TODO: player, enemy, world, camera, music, etc.
     player.update();
+    
+    // Update camera
+    camera.target = player.position;
 }
 
 // Main udpate
