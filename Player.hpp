@@ -88,7 +88,7 @@ struct Player
 
     void update(int mapW, int mapH)
     {
-        if(IsKeyDown(KEY_LEFT_SHIFT) && stamina > 0) 
+        if(IsKeyDown(KEY_LEFT_SHIFT)) 
         {
             speed = 15.f;
             delay = 2;
