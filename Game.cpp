@@ -26,8 +26,9 @@ void Game::run()
 }
 
 /*
-    Init objects:
+    Init components:
     - Window
+    - Camera
 */
 void Game::initWin()
 {
@@ -37,19 +38,57 @@ void Game::initWin()
     // Limiting FPS
     SetTargetFPS(60);
 }
+void Game::initCamera(Camera2D &cam, int w, int h)
+{
+    cam.target = (Vector2){ player.position.x + 64, player.position.y + 64 };
+    cam.offset = (Vector2){ (float)w / 2 , (float)h / 2 };
+    cam.rotation = 0;
+    cam.zoom = 1;
+}
 
 // Main init function
 void Game::init()
 {
     // Init game components
     initWin();
+    initCamera(camera, sWidth, sHeight);
 
     // Initial game state
     GameState gameState = GameState::GAME;
 
     // Init game objects
-    player.init(sWidth, sHeight);
+    player.init();
     tilemap.init();
+}
+
+/*
+    Update components:
+    - Camera
+*/
+void Game::updateCamera(Camera2D& cam, const Tilemap& tilemap, int screenWidth, int screenHeight)
+{
+    tileSize = tilemap.tileSize;
+    mapWidth = tilemap.mapWidth * tileSize;
+    mapHeight = tilemap.mapHeight * tileSize;
+
+    cam.target = (Vector2){player.position.x + 64, player.position.y + 64};
+
+    // Calculate map boundaries in pixels
+    mapLeft = 0;
+    mapRight = mapWidth - screenWidth;
+    mapTop = 0;
+    mapBottom = mapHeight - screenHeight;
+
+    // Clamp camera position inside map
+    if (cam.target.x < mapLeft + cam.offset.x)
+        cam.target.x = mapLeft + cam.offset.x;
+    else if (cam.target.x > mapRight + cam.offset.x)
+        cam.target.x = mapRight + cam.offset.x;
+
+    if (cam.target.y < mapTop + cam.offset.y)
+        cam.target.y = mapTop + cam.offset.y;
+    else if (cam.target.y > mapBottom + cam.offset.y)
+        cam.target.y = mapBottom + cam.offset.y;
 }
 
 /*
@@ -59,7 +98,8 @@ void Game::init()
 void Game::updateGame()
 {
     // TODO: player, enemy, world, camera, music, etc.
-    player.update();
+    player.update(mapWidth, mapHeight);
+    updateCamera(camera, tilemap, sWidth, sHeight);
 }
 
 // Main udpate
@@ -82,7 +122,7 @@ void Game::renderGame()
     ClearBackground(BLACK);
 
     // Render game objects
-    for(int i = 0; i < 2; i++) tilemap.render(i);
+    tilemap.render();
     player.render();
 }
 
@@ -92,7 +132,7 @@ void Game::render()
     BeginDrawing();
 
     // Begin 2D mode to use camera
-    BeginMode2D(player.camera);
+    BeginMode2D(camera);
 
     switch(gameState)
     {

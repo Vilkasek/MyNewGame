@@ -23,11 +23,15 @@ public:
 
 // Private methods
 private:
-    // Init objects
+    // Init components
     void initWin();
+    void initCamera(Camera2D &cam, int w, int h);
     
     // Init everything
     void init();
+
+    // Update components
+    void updateCamera(Camera2D& cam, const Tilemap& tilemap, int screenWidth, int screenHeight);
 
     // Updates states
     void updateGame();
@@ -56,4 +60,17 @@ private:
     // Create game objects
     Player player;
     Tilemap tilemap;
+
+    // Create game components
+    Camera2D camera = { 0 };
+
+    // Create variables to control camera boundaries
+    int tileSize = { 0 };
+    int mapWidth = { 0 };
+    int mapHeight = { 0 };
+
+    int mapLeft = { 0 };
+    int mapRight = { 0 };
+    int mapTop = { 0 };
+    int mapBottom = { 0 };
 };

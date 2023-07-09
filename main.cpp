@@ -5,6 +5,6 @@ int main()
     // Create main game object
     Game game;
 
-    // Runing game
+    // Running game
     game.run();    
 }

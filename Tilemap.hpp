@@ -1,41 +1,43 @@
-// Include tile for build map
 #include "Tile.hpp"
 
-// Include vector for dynamic array
-#include <vector>
-
-// Map struct
 struct Tilemap
 {
-    // We need object to put into array
-    Tile tile;
+    const int mapWidth = 10;
+    const int mapHeight = 10;
+    const int tileSize = 512;
 
-    // Position of tile
-    Vector2 position = { 0 };
+    Tile tiles[10][10];
 
-    // Initialize map
-    void init() 
+    void init()
     {
-        // Init tile object
-        tile.init();
-
-        // Initial position
-        position = { 0, 0 };
-
-        // Save tiles into array
-        // for(int i = 0; i <= 10; i++) tiles[i] = tile;
+        for (int x = 0; x < mapWidth; x++)
+        {
+            for (int y = 0; y < mapHeight; y++)
+            {
+                tiles[x][y].init();
+            }
+        }
     }
 
-    // Rendering tilemap
-    void render(int i) 
+    void render()
     {
-        // Render map tile
-        DrawTextureEx(tile.tex, (Vector2){position.x + (tile.tex.width * 6 * i), position.y}, 0.f, 6.f, WHITE);
+        for (int x = 0; x < mapWidth; x++)
+        {
+            for (int y = 0; y < mapHeight; y++)
+            {
+                DrawTextureEx(tiles[x][y].tex, { (float)x * tileSize, (float)y * tileSize }, 0.f, 4.f, WHITE);
+            }
+        }
     }
 
-    // Deinit
     void deinit()
     {
-        tile.deinit();
+        for (int x = 0; x < mapWidth; x++)
+        {
+            for (int y = 0; y < mapHeight; y++)
+            {
+                tiles[x][y].deinit();
+            }
+        }
     }
 };
