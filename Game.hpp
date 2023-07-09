@@ -69,6 +69,7 @@ private:
     int mapWidth = { 0 };
     int mapHeight = { 0 };
 
+    // We need that for clamp player inside tilemap
     int mapLeft = { 0 };
     int mapRight = { 0 };
     int mapTop = { 0 };

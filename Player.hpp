@@ -69,26 +69,34 @@ struct Player
     // Updating animations
     void animation(int i)
     {
+        // Counting frames
         frameCount++;
 
+        // Use delaying for change speed of animations
         if(frameCount >= delay)
         {
+            // Increasing current frame number
             currFrame++;
 
-            if(currFrame >= animFrames[i])
-                currFrame = 0;
+            // Reseting number of frame after animation ended
+            if(currFrame >= animFrames[i]) currFrame = 0;
 
+            // Changing memory data offset
             offset = iAnims[i].width * iAnims[i].height * 4 * currFrame;
 
+            // We need update texture for animate it
             UpdateTexture(walkTex[i], ((unsigned char *)iAnims[i].data) + offset);
 
+            // Reset frame count 
             frameCount = 0;
         }
     }
 
+    // Updating player stuff
     void update(int mapW, int mapH)
     {
-        if(IsKeyDown(KEY_LEFT_SHIFT)) 
+        // Sprinting and changing animation speed
+        if(IsKeyDown(KEY_LEFT_SHIFT))
         {
             speed = 15.f;
             delay = 2;
@@ -99,6 +107,7 @@ struct Player
             delay = 5;
         }
 
+        // Vertical movement with clamp player inside window on Y axis
         if(IsKeyDown(KEY_W) && collBox.y > 0)
         {
             velocity.y = -1;
@@ -113,6 +122,7 @@ struct Player
         }
         else velocity.y = 0;
 
+        // Horizontal movement with clamp player inside window on X axis
         if(IsKeyDown(KEY_A) && collBox.x > 0)
         {
             velocity.x = -1;
@@ -127,17 +137,23 @@ struct Player
         }
         else velocity.x = 0;
 
+        // Normalize velocity vector (we need that for the same speed in all 8 - directions)
         velocity = Vector2Normalize(velocity);
 
+        // Changing position with velocity multiplied by speed
         position.x += velocity.x * speed;
         position.y += velocity.y * speed;
 
+        // Change collision box's position
         collBox.x = position.x + 40;
         collBox.y = position.y;
     }
 
+    // Render player
     void render()
     {
+        // Because I know what I'm doing (maybe) in comparisment with Yandev
+        // I'm using switch statement for changing animations depending by direction
         switch(dir)
         {
             case Direction::RIGHT:
@@ -159,6 +175,7 @@ struct Player
         }
     }
 
+    // We need deinitialization for unload graphics from memory
     void deinit()
     {
         for(auto i : walkTex) UnloadTexture(i);

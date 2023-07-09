@@ -40,6 +40,7 @@ void Game::initWin()
 }
 void Game::initCamera(Camera2D &cam, int w, int h)
 {
+    // Set target, offset, rotation and zoom
     cam.target = (Vector2){ player.position.x + 64, player.position.y + 64 };
     cam.offset = (Vector2){ (float)w / 2 , (float)h / 2 };
     cam.rotation = 0;
@@ -67,10 +68,12 @@ void Game::init()
 */
 void Game::updateCamera(Camera2D& cam, const Tilemap& tilemap, int screenWidth, int screenHeight)
 {
+    // Set valuables to vars
     tileSize = tilemap.tileSize;
     mapWidth = tilemap.mapWidth * tileSize;
     mapHeight = tilemap.mapHeight * tileSize;
 
+    // Set target for camera
     cam.target = (Vector2){player.position.x + 64, player.position.y + 64};
 
     // Calculate map boundaries in pixels
@@ -79,16 +82,17 @@ void Game::updateCamera(Camera2D& cam, const Tilemap& tilemap, int screenWidth, 
     mapTop = 0;
     mapBottom = mapHeight - screenHeight;
 
-    // Clamp camera position inside map
-    if (cam.target.x < mapLeft + cam.offset.x)
-        cam.target.x = mapLeft + cam.offset.x;
-    else if (cam.target.x > mapRight + cam.offset.x)
-        cam.target.x = mapRight + cam.offset.x;
-
+    // Clamp camera position inside map on Y axis
     if (cam.target.y < mapTop + cam.offset.y)
         cam.target.y = mapTop + cam.offset.y;
     else if (cam.target.y > mapBottom + cam.offset.y)
         cam.target.y = mapBottom + cam.offset.y;
+
+    // Clamp camera position inside map on X axis
+    if (cam.target.x < mapLeft + cam.offset.x)
+        cam.target.x = mapLeft + cam.offset.x;
+    else if (cam.target.x > mapRight + cam.offset.x)
+        cam.target.x = mapRight + cam.offset.x;
 }
 
 /*
@@ -97,7 +101,9 @@ void Game::updateCamera(Camera2D& cam, const Tilemap& tilemap, int screenWidth, 
 */
 void Game::updateGame()
 {
-    // TODO: player, enemy, world, camera, music, etc.
+    // TODO: enemy, world, music, etc.
+
+    // Updating player and camera
     player.update(mapWidth, mapHeight);
     updateCamera(camera, tilemap, sWidth, sHeight);
 }
